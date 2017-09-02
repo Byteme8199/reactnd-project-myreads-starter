@@ -6,8 +6,7 @@ class List extends Component {
 
   render() {
     /** Deconstruct the props */
-    const books = this.props.bookList
-    const categories = this.props.categories
+    let { bookList, categories} = this.props
 
     /**
       Return the List of books broken down into shelf categories
@@ -31,7 +30,7 @@ class List extends Component {
               <h2 className="bookshelf-title">{ category.title }</h2>
               <div className="bookshelf-books">
                 <ol className="books-grid">
-                  { books.filter( book => book.shelf === category.slug).map((book) => (
+                  { bookList.filter( book => book.shelf === category.slug).map((book) => (
                     <li key={ book.id }>
                       <Book 
                         updateShelf={this.props.updateShelf} 

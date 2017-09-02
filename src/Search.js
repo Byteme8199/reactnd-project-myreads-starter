@@ -6,10 +6,10 @@ class Search extends Component {
 
   render() {
     /** Deconstruct the props */
-    const books = this.props.searchBooksList
+    let { searchBooksList, updateShelf } = this.props
 
     /**
-      Return the serach input and update the state.searchBooksList
+      Return the search input and update the state.searchBooksList
       whenever the user types more than 1 letter into the input field
 
       All books in the state.searchBooksList will be rendered via 
@@ -30,14 +30,14 @@ class Search extends Component {
               placeholder="Search by title or author"/>
           </div>
         </div>
-        { books.length > 1 && (
+        { searchBooksList.length > 1 && (
         <div className="search-books-results">
           <ol className="books-grid">
-            { books.map((book) => (
+            { searchBooksList.map((book) => (
               <li key={ book.id }>
                 <Book 
-                  updateShelf={this.props.updateShelf} 
-                  shelf='none'
+                  updateShelf={updateShelf} 
+                  shelf={ book.shelf ? book.shelf : 'none'}
                   book={book} />
               </li>
             ))}

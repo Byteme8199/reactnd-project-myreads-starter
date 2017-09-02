@@ -4,8 +4,7 @@ class SelectShelf extends Component {
 
   render() {
   	/** Deconstruct the props */
-  	let shelf = this.props.shelf
-  	const book = this.props.book
+  	let { shelf, book } = this.props
 
   	/** 
   		Return the SelectShelf with the correctly selected drop-down

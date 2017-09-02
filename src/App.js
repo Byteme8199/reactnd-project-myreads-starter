@@ -39,6 +39,7 @@ class BooksApp extends React.Component {
   updateShelf = (book, shelf) => {
     BooksAPI.update(book, shelf).then((books) => {
       this.reloadBooks()
+      this.searchBooks(this.state.query)
     })
   }
 
@@ -48,7 +49,21 @@ class BooksApp extends React.Component {
     if(query.length > 1){
       BooksAPI.search(query, 20).then((searchBooks) => {
         if(searchBooks.length > 1){
-          this.setState({ searchBooksList: searchBooks })
+          let bookShelf = this.state.books
+          /** 
+            filter every newly searched book and see if 
+            it matches something on the bookshelf, if so, the
+            book needs a shelf designation for the selector dropdown
+          */
+          let newSearch = searchBooks.map(function(book){
+            let thisIndex = bookShelf.findIndex(i => i.id === book.id)
+            if(thisIndex !== -1){
+              return bookShelf[thisIndex]
+            } else {
+              return book
+            }
+          })
+          this.setState({ searchBooksList: newSearch })
         }
       })
     } else {
@@ -70,7 +85,7 @@ class BooksApp extends React.Component {
           <Search 
             query={this.state.query}
             searchBooksList={this.state.searchBooksList} 
-            searchBooks={this.searchBooks} 
+            searchBooks={this.searchBooks}
             updateShelf={this.updateShelf} />
         )}/>
         <Route exact path='/' render={() => (

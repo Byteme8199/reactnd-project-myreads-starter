@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 import SelectShelf from './SelectShelf'
 
 class Book extends Component {
-	
+
   render() {
   	/** Deconstruct the props */
-  	const book = this.props.book
-  	const shelf = this.props.shelf
+  	let { book, shelf } = this.props
 
   	/** 
   		Return the book item with all the applicable assets
@@ -16,7 +15,7 @@ class Book extends Component {
     return (
       <div className="book">
 	      <div className="book-top">
-	        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${ book.imageLinks.thumbnail })` }}></div>
+	        <div className="book-cover" style={{ backgroundImage: `url(${ book.imageLinks.thumbnail })` }}></div>
 	        <div className="book-shelf-changer">
 	        	{/* Load the SelectShelf Component */}
 	          <SelectShelf 
