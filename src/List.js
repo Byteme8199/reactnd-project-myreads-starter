@@ -5,9 +5,20 @@ import Book from './Book'
 class List extends Component {
 
   render() {
+    /** Deconstruct the props */
     const books = this.props.bookList
     const categories = this.props.categories
 
+    /**
+      Return the List of books broken down into shelf categories
+      The categories are passed from the state.categories.  
+      This would be better as a BooksAPI call IMO.
+      Once we map the categories, then we filter the books in MyReads
+      into the appropriate categories.
+
+      Also, let's have a route to the search page using Link from
+      the React Router
+    */
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -22,7 +33,10 @@ class List extends Component {
                 <ol className="books-grid">
                   { books.filter( book => book.shelf === category.slug).map((book) => (
                     <li key={ book.id }>
-                      <Book book={book} shelf={book.shelf}/>
+                      <Book 
+                        updateShelf={this.props.updateShelf} 
+                        book={book} 
+                        shelf={book.shelf} />
                     </li>
                   ))}
                 </ol>

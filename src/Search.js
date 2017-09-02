@@ -1,37 +1,32 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 
 class Search extends Component {
 
-  state = {
-    books: []
-  }
-
-  searchBooks = (query) => {
-    if(query.length > 1){
-      BooksAPI.search(query, 20).then((books) => {
-        if(books.length > 1){
-          this.setState({ books })
-        }
-      })
-    } else {
-      this.setState({ books: []})
-    }
-  }
-
   render() {
-    const books = this.state.books
+    /** Deconstruct the props */
+    const books = this.props.searchBooksList
 
+    /**
+      Return the serach input and update the state.searchBooksList
+      whenever the user types more than 1 letter into the input field
+
+      All books in the state.searchBooksList will be rendered via 
+      the Books component (and hence will also have the shelf selector)
+
+      Also, let's have a route to the index page using Link from
+      the React Router
+    */
     return ( 
       <div className="search-books">
         <div className="search-books-bar">
           <Link className="close-search" to="/">Close</Link>
           <div className="search-books-input-wrapper">
             <input 
-              onChange={(event) => this.searchBooks(event.target.value)}
+              onChange={(event) => this.props.searchBooks(event.target.value)}
               type="text"
+              value={this.props.query}
               placeholder="Search by title or author"/>
           </div>
         </div>
@@ -40,7 +35,10 @@ class Search extends Component {
           <ol className="books-grid">
             { books.map((book) => (
               <li key={ book.id }>
-                <Book book={book}/>
+                <Book 
+                  updateShelf={this.props.updateShelf} 
+                  shelf='none'
+                  book={book} />
               </li>
             ))}
           </ol>
